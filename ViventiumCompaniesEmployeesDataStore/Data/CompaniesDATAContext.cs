@@ -11,6 +11,13 @@ namespace ViventiumAPI.Data
 {
     public class CompaniesDATAContext : DbContext
     {
+
+        public CompaniesDATAContext(string fileName)
+            : base()
+        {
+            FileName = fileName;
+        }
+
         public CompaniesDATAContext(DbContextOptions<CompaniesDATAContext> options)
             : base(options)
         {

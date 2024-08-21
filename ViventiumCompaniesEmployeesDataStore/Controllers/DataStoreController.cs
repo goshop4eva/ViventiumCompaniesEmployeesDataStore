@@ -20,17 +20,15 @@ namespace ViventiumAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> PostDataStore(string filePath)
+        public IActionResult PostDataStore(string filePath)
         {
-            if (_dataStoreService.Validate())
+            if (_dataStoreService.PostDataStore(filePath))
             {
-                _dataStoreService.PostDataStore(filePath);
-
                 return Ok();
             }
             else
             {
-                return BadRequest("Validation failed");
+                return StatusCode(500, "Failed Validation on \r\n1) The employeeNumber should be unique within a given company.\r\n2) The manager of the given employee should exist in the same company.");
             }
         }
     }
