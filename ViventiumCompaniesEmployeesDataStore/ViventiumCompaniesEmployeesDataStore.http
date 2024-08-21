@@ -1,0 +1,6 @@
+@ViventiumCompaniesEmployeesDataStore_HostAddress = http://localhost:5242
+
+GET {{ViventiumCompaniesEmployeesDataStore_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
