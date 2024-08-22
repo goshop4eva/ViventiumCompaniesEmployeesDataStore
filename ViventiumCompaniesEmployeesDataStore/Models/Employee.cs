@@ -16,6 +16,6 @@ namespace ViventiumAPI.Models
         [Column("HireDate")]
         public DateTime? HireDate { get; set; }
 
-        public EmployeeHeader[] Managers { get; set; } // List of EmployeeHeaders of the managers, ordered ascending by seniority(i.e.the immediate manage first)
+        public ICollection<EmployeeHeader> Managers { get; set; } = new List<EmployeeHeader>();
     }
 }

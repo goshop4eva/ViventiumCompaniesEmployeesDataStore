@@ -18,51 +18,28 @@ namespace ViventiumAPI.Services
             _employeesContext = employeesContext;
         }
 
-        public bool PostDataStore(string filePath)
+        public void PostDataStore(string filePath)
         {
-            //_companiesContext.Database.CloseConnection();
-            //_employeesContext.Database.CloseConnection();
-
-            //CompaniesDATAContext.FileName = filePath;
-            //EmployeesDATAContext.FileName = filePath;
-
-            //_companiesContext.Database.OpenConnection();
-            //_employeesContext.Database.OpenConnection();
-
             CompaniesDATAContext newCompaniesContext = new CompaniesDATAContext(filePath);
             EmployeesDATAContext newEmployeesContext = new EmployeesDATAContext(filePath);
-            
-            if (Validate(newCompaniesContext, newEmployeesContext))
-            {
-                _companiesContext = newCompaniesContext;
-                _employeesContext = newEmployeesContext;
 
-                return true;
-            }
+            Validate(newCompaniesContext, newEmployeesContext);
 
-            return false;
-               
+            // no exceptions are thrown
+            _companiesContext = newCompaniesContext;
+            _employeesContext = newEmployeesContext;
         }
 
-        public bool Validate(CompaniesDATAContext newCompaniesContext, EmployeesDATAContext newEmployeesContext)
+        public void Validate(CompaniesDATAContext newCompaniesContext, EmployeesDATAContext newEmployeesContext)
         {
-            var listOfCompaniesRows = newCompaniesContext.companiesDATA.ToList();
+            CompaniesService companyService = new CompaniesService(newCompaniesContext, newEmployeesContext);
 
-            // Use group by for distinct method to find the list of companies
-            List<CompanyHeader> companies = listOfCompaniesRows.GroupBy(x => x.Id).Select(x => x.First()).OrderBy(x => x.Id).ToList<CompanyHeader>();
+            var companies = companyService.GetCompanies();
 
-            foreach (Company company in companies)
+            if (companies.Exception != null) 
             {
-                var employees = newEmployeesContext.employeesDATA.Where(e => e.CompanyId == company.Id).Select(x => x.EmployeeNumber);
-
-                if (employees.Distinct().ToList().Count != employees.ToList().Count)
-                {
-                    return false;
-                }
+                throw new Exception(companies.Exception.ToString());
             }
-
-            return true;
-
         }
     }
 }

@@ -40,10 +40,8 @@ namespace ViventiumAPI.Data
             base.OnModelCreating(modelBuilder);
         }
 
-        public static string FileName { get; set; }
+        public static string FileName { get; set; } = string.Empty;
 
         public DbSet<Company> companiesDATA { get; set; }
-
-        //public DbSet<Employee> employeesDATA { get; set; }
     }
 }

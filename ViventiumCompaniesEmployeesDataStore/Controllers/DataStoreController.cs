@@ -20,15 +20,24 @@ namespace ViventiumAPI.Controllers
         }
 
         [HttpPost]
-        public IActionResult PostDataStore(string filePath)
+        public async Task<IActionResult> PostDataStore(string filePath)
         {
-            if (_dataStoreService.PostDataStore(filePath))
+            if (!System.IO.File.Exists(filePath))
             {
-                return Ok();
+                return NotFound("File does not exist");
             }
             else
             {
-                return StatusCode(500, "Failed Validation on \r\n1) The employeeNumber should be unique within a given company.\r\n2) The manager of the given employee should exist in the same company.");
+                try
+                {
+                    _dataStoreService.PostDataStore(filePath);
+
+                    return Ok();
+                }
+                catch (Exception e) 
+                {
+                    return StatusCode(500, e.Message);
+                }
             }
         }
     }

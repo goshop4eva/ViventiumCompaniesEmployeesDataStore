@@ -16,9 +16,13 @@ namespace ViventiumAPI.Models
         [Column("EmployeeLastName")]
         public required String LastName { get; set; }
 
-        [ForeignKey(nameof(Company.Id))]
+        //[ForeignKey(nameof(Company.Id))]
         [Column("CompanyId")]
         public int CompanyId { get; set; }
+
+        // Is there another way we can utilize entity framework?
+        [Column("ManagerEmployeeNumber")]
+        public String? ManagerEmployeeNumber { get; set; }
 
         [NotMapped]
         String FullName

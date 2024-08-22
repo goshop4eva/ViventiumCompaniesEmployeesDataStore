@@ -26,14 +26,14 @@ namespace ViventiumAPI.Controllers
 
         [Route("{companyId}")]
         [HttpGet]
-        public async Task<ActionResult<Company>> GetCompanies(int companyId)
+        public async Task<ActionResult<Company?>> GetCompanies(int companyId)
         {
             return await _companiesService.GetCompanies(companyId);
         }
 
         [Route("{companyId}/Employees/{employeeNumber}")]
         [HttpGet]
-        public async Task<ActionResult<Employee>> GetEmployees(int companyId, String employeeNumber)
+        public async Task<ActionResult<Employee?>> GetEmployees(int companyId, String employeeNumber)
         {
             return await _companiesService.GetEmployees(companyId, employeeNumber);
         }
